@@ -12,10 +12,18 @@ private:
     T* values;
     Dimension dim;
 public:
-    Matrix(T* arrOfValues);
+    explicit Matrix(T *arrOfValues);
+    explicit Matrix(int rows,int cols);
     Dimension getDim();
-    T* getValueArray();
+
+    T *getValueArray();
     Matrix operator *(Matrix &m);
     T* get(int n,int m);
+    int rows();
+    int cols();
+
 };
+
+
+
 #endif //NEURONET_MATRIX_H
