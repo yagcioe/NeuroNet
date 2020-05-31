@@ -6,15 +6,16 @@
 
 #include "Dimension.h"
 #define NEURONET_MATRIX_H
-template <typename T>
+template <class T>
 class Matrix{
 private:
     T* values;
     Dimension dim;
 public:
     Matrix(T* arrOfValues);
-    int getDim();
-    T* getValues();
+    Dimension getDim();
+    T* getValueArray();
     Matrix operator *(Matrix &m);
+    T* get(int n,int m);
 };
 #endif //NEURONET_MATRIX_H

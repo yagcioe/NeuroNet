@@ -3,4 +3,4 @@ project(NeuroNet)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(NeuroNet main.cpp Node.h Matrix.h Dimension.h)
+add_executable(NeuroNet main.cpp Node.h Dimension.h Matrix.cpp Matrix.h)
