@@ -9,13 +9,8 @@
 #include <c++/4.8.3/iostream>
 
 
-Matrix::Matrix(double **arrOfValues) {
-    dim = { sizeof(arrOfValues),sizeof(arrOfValues[0])};
-
-    //checke ob Eingabearray korrekt geformt ist
-    for (int i = 1; i < dim.n; ++i) {
-        assert((sizeof(arrOfValues[i]) == dim.m));
-    }
+Matrix::Matrix(int rows,int cols,double **arrOfValues) {
+    dim = {rows,cols};
     values=arrOfValues;
 
 }
@@ -80,7 +75,7 @@ Matrix Matrix::matmul(Matrix &m1, Matrix &m2) {
     for (int i = 0; i < m1.dim.n; ++i) {
         for (int j = 0; j < m2.dim.m; ++j) {
             for (int k = 0; k < m1.dim.m; ++k) {
-                ret.values[i][j] += m1.values[i][k] * m2.values[k][j];
+                ret.set(i,j,ret.get(i,j)+ m1.get(i,k) * m2.get(k,j));
             }
         }
     }
@@ -91,24 +86,24 @@ Matrix Matrix::scale(double d, Matrix m) {
     Matrix mm = m.clone();
     for (int i = 0; i <m.dim.n ; ++i) {
         for (int j = 0; j <m.dim.m ; ++j) {
-            m.values[i][j] *= d;
+            mm.set(i,j,m.get(i,j)*d);
         }
     }
 }
 
 Matrix Matrix::clone() {
-    Matrix ret(Matrix::clone2dArray(this->values));
+    Matrix ret(dim.n,dim.m,Matrix::clone2dArray(dim.n,dim.m,this->values));
     return ret;
 }
 
 
 
 
-double  **Matrix::clone2dArray(double **arr) {
-    auto **ret = (double**)(malloc(sizeof(arr)));
-    for (int i = 0; i <sizeof(arr) ; i+= sizeof(double*)) {
-        auto *row= (double* )(malloc(sizeof(arr[i])));
-        for (int j = 0; j < sizeof(arr[i]) ; j+= sizeof(double*)) {
+double  **Matrix::clone2dArray(int rows,int cols ,double **arr) {
+    auto **ret = (double**)(malloc(sizeof(double*)*rows));
+    for (int i = 0; i <rows ; ++i) {
+        auto *row= (double* )(malloc(sizeof(double*) *cols));
+        for (int j = 0; j < cols ; ++j) {
              row[j]=arr[i][j];
         }
 
@@ -131,7 +126,7 @@ std::string Matrix::toString(Matrix &m) {
              s.append(", ");
             }
             //std::cout<<m.values[i][j]<<" "<< std::endl;
-            s.append(std::to_string(m.values[i][j]));
+            s.append(std::to_string(m.get(i,j)));
         }
 
         s.append("]");
@@ -142,10 +137,12 @@ std::string Matrix::toString(Matrix &m) {
 }
 
 double *Matrix::getRow(int i) {
+    assert(i<dim.n);
     return values[i];
 }
 
 double *Matrix::getCol(int i) {
+    assert(i<dim.m);
     auto* col = (double*)malloc(sizeof(values));
     for (int j = 0; j < dim.n ; ++j) {
         col[j]=values[j][i];
@@ -153,17 +150,22 @@ double *Matrix::getCol(int i) {
 }
 
 void Matrix::set(int row, int col, double d) {
+    assert(row<dim.n);
+    assert(col<dim.m);
+
     values[row][col]=d;
 }
 
 void Matrix::setRow(int i, double *rowValue) {
     assert(sizeof(rowValue)== sizeof(values[i]));
+    assert(i<dim.n);
     values[i]=rowValue;
 
 }
 
 void Matrix::setCol(int i, const double *colValue) {
     assert(sizeof(colValue)== sizeof(values));
+    assert(i<dim.m);
     for (int j = 0; j <dim.n ; ++j) {
         values[j][i]=colValue[j];
     }

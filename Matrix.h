@@ -14,9 +14,9 @@ class Matrix{
 private:
     double** values;
     Dimension dim;
-    static double **clone2dArray(double **arr);
+    static double **clone2dArray(int rows,int cols,double **arr);
 public:
-    explicit Matrix(double** arrOfValues);
+    explicit Matrix(int rows,int cols,double** arrOfValues);
     explicit Matrix(int rows,int cols);
     Dimension getDim();
 
