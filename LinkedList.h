@@ -64,6 +64,7 @@ public:
      * creates new Linked List
      */
     LinkedList();
+
     /**
      * adds value to the List
      * @param value
@@ -72,7 +73,7 @@ public:
     bool add(void *value);
 
     /**
-     * adss Value to the End of the List
+     * adds Value to the End of the List
      * * @param value
      * @return true iff sucess
      */
@@ -130,7 +131,7 @@ public:
     void *pop();
 
     /**
-     *removes the Listitem with given value and returns the value of the ListItem
+     * removes the ListItem with given value and returns the value of the ListItem
      * @param value
      * @return value of the ListItem or nullptr
      * @attention possible nullptr
@@ -140,7 +141,7 @@ public:
     void *pop(void *value);
 
     /**
-     * removes the Listitem of the ith position and returns its value
+     * removes the ListItem of the ith position and returns its value
      * @param i
      * @return value of ith ListItem
      * @attention may assert if out of Range
@@ -148,7 +149,7 @@ public:
     void *popAt(int i);
 
     /**
-     *
+     * returns value from position i
      * @param pos
      * @return List Item of this position
      * @attention may assert if out of Range
@@ -157,13 +158,13 @@ public:
 
     /**
     *
-     * @param value
+    * @param value
     * @return true if Value exists in List
     */
     bool exists(void *value);
 
     /**
-     *
+     * overrides value at position i
      * @param i
      * @param value
      * @return true if value has been set
@@ -191,7 +192,7 @@ public:
 
     /**
      *
-     * @return true if List is empty
+     * @return true iff List is empty
      */
     bool isEmpty();
 
