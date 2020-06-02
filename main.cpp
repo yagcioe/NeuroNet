@@ -9,8 +9,10 @@ int main() {
     m.setRow(1,d);
     Matrix m2(3,1);
     double dd[]= {4,3.3,7};
-    m2.setCol(0,dd);
+    m2.setCol(0,3,dd);
     std::string str("test");
-    std::cout<< m.toString()<<std::endl<<m2.toString()<<std::endl<<Matrix::matmul(m,m2).toString();
+    Matrix c =Matrix::matmul(m,m2);
+    Matrix de = m*m2;
+    std::cout<<"m"<< m.toString()<<std::endl<<"m2"<<m2.toString()<<std::endl<<"c"<<c.toString()<<"d"<< de.toString();
 
 }

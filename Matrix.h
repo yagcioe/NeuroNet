@@ -20,7 +20,7 @@ public:
     explicit Matrix(int rows,int cols);
     Dimension getDim();
 
-    double** getValueArray();
+    //double** getValueArray();
     Matrix operator *(Matrix &m);
     static Matrix matmul(Matrix &m1,Matrix &m2);
     static Matrix scale(double d, Matrix m);
@@ -30,7 +30,7 @@ public:
     double* getCol(int i);
     void set(int row,int col, double d);
     void setRow(int i,double* rowValue);
-    void setCol(int i,const double* colValue);
+    void setCol(int i,int length,const double* colValue);
     int rows ();
     int cols();
 
