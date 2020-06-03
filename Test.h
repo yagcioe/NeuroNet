@@ -10,7 +10,14 @@
 #include "LinkedList.h"
 
 class Test {
-
+public:
+    typedef bool (*func )(void * args);
+    struct result{
+        long start;
+        long end;
+        long duration;
+        bool success;
+    };
 protected:
 
     void* params;
@@ -21,7 +28,7 @@ protected:
 
     virtual const LinkedList*  run();
 
-    void addTest(std::string Name,bool (*f)(void * args));
+    void addTest(std::string Name,func);
 
 
 };

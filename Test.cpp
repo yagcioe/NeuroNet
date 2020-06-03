@@ -9,6 +9,9 @@ Test::Test(void *params): {
 }
 
 const LinkedList * Test::run() {
+    for (LinkedList::Iterator i = *tests.iterator(); i.hasNext() ; ) {
+        (Test::func)i.next()
+    }
     return nullptr;
 }
 

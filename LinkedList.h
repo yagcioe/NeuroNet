@@ -6,7 +6,7 @@
 #define NEURONET_LINKEDLIST_H
 
 class LinkedList {
-private:
+protected:
     /**
      * basic LinkedList Item bilateral, with sentinel
      */
@@ -20,15 +20,7 @@ private:
         ListItem *prev;
     };
 
-    class Iterator{
-    private:
-        ListItem *p;
-        LinkedList *outa;
-    public:
-        explicit Iterator(LinkedList* daddy);
-        bool hasNext();
-        void* next();
-    };
+
 
     ListItem *head;
     ListItem *tail;
@@ -69,8 +61,24 @@ private:
      */
     static void unlink(ListItem *p);
 
-//public List Manipulation
-public:
+//List Manipulation
+
+
+    class Iterator{
+    private:
+
+        ListItem *p;
+        LinkedList *outa;
+    public:
+
+        bool hasNext();
+        explicit Iterator(LinkedList* daddy);
+        virtual void* next();
+    };
+    /**
+     *
+     * @return iterator of list
+     */
     Iterator *iterator();
     /**
      * creates new Linked List
@@ -144,7 +152,7 @@ public:
      * @return value of delted element
      * @attention may assert if List is Empty
      */
-    void *pop();
+    virtual void *pop();
 
     /**
      * removes the ListItem with given value and returns the value of the ListItem
@@ -154,7 +162,7 @@ public:
      */
 
 
-    void *pop(void *value);
+    virtual void *pop(void *value);
 
     /**
      * removes the ListItem of the ith position and returns its value
@@ -162,7 +170,7 @@ public:
      * @return value of ith ListItem
      * @attention may assert if out of Range
      */
-    void *popAt(int i);
+    virtual void *popAt(int i);
 
     /**
      * returns value from position i
@@ -170,7 +178,7 @@ public:
      * @return List Item of this position
      * @attention may assert if out of Range
      */
-    void *get(int i);
+    virtual void *get(int i);
 
     /**
     *

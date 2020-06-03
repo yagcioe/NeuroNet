@@ -269,3 +269,5 @@ LinkedList::Iterator::Iterator(LinkedList *daddy) {
     outa = daddy;
     p = daddy->head;
 }
+
+
