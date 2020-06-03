@@ -9,13 +9,13 @@
 
 //private Utility functions
 void LinkedList::swap(LinkedList::ListItem *l1, LinkedList::ListItem *l2) {
-        void *temp = l1->value;
+    void *temp = l1->value;
     l1->value = l2->value;
     l2->value = temp;
 }
 
 LinkedList::ListItem *LinkedList::pos(int i) {
-        assert(i < size && "Index out of Range");
+    assert(i < size && "Index out of Range");
     ListItem *p = head;
     if (i < 0) {
         for (int k = i; k != 0; k++) {
@@ -30,7 +30,7 @@ LinkedList::ListItem *LinkedList::pos(int i) {
 }
 
 LinkedList::ListItem *LinkedList::val(void *value, bool doAssert) {
-        ListItem *l = head;
+    ListItem *l = head;
     for (int i = 0; i < size; ++i) {
         if (l->value == value) { return l; }
         l = l->next;
@@ -41,7 +41,7 @@ LinkedList::ListItem *LinkedList::val(void *value, bool doAssert) {
 
 
 void LinkedList::unlink(LinkedList::ListItem *p) {
-        p->next->prev = p->prev;
+    p->next->prev = p->prev;
     p->prev->next = p->next;
 
 
@@ -49,11 +49,11 @@ void LinkedList::unlink(LinkedList::ListItem *p) {
 
 //Main Methods
 bool LinkedList::add(void *value) {
-        addLast(value);
+    return addLast(value);
 }
 
 bool LinkedList::addAt(int i, void *value) {
-        size++;
+    size++;
     ListItem *p = LinkedList::pos(i);
 
     auto *l = new ListItem(value, p->prev, p);
@@ -69,7 +69,7 @@ bool LinkedList::addAt(int i, void *value) {
 }
 
 bool LinkedList::remove(void *value) {
-        ListItem *p = val(value);
+    ListItem *p = val(value);
     if (p != sentinel) {
         if (head == p) {
             head = p->next;
@@ -87,7 +87,7 @@ bool LinkedList::remove(void *value) {
 }
 
 bool LinkedList::removeAt(int i) {
-        ListItem *p = LinkedList::pos(i);
+    ListItem *p = LinkedList::pos(i);
     if (head == p) {
         head = p->next;
     }
@@ -101,7 +101,7 @@ bool LinkedList::removeAt(int i) {
 }
 
 void *LinkedList::pop(void *value) {
-        ListItem *p = val(value);
+    ListItem *p = val(value);
     if (p != sentinel) {
         void *temp = p->value;
         unlink(p);
@@ -115,7 +115,7 @@ void *LinkedList::pop(void *value) {
 
 
 void *LinkedList::popAt(int i) {
-        ListItem *p = pos(i);
+    ListItem *p = pos(i);
     void *temp = p->value;
     unlink(p);
     delete p;
@@ -125,16 +125,16 @@ void *LinkedList::popAt(int i) {
 }
 
 void *LinkedList::get(int i) {
-        return LinkedList::pos(i)->value;
+    return LinkedList::pos(i)->value;
 }
 
 bool LinkedList::set(int i, void *value) {
-        LinkedList::pos(i)->value = value;
+    LinkedList::pos(i)->value = value;
     return true;
 }
 
 bool LinkedList::replace(void *value, void *newValue) {
-        ListItem *p = val(value);
+    ListItem *p = val(value);
     if (p == sentinel) {
         return false;
     }
@@ -143,7 +143,7 @@ bool LinkedList::replace(void *value, void *newValue) {
 }
 
 bool LinkedList::exists(void *value) {
-        ListItem *p = val(value);
+    ListItem *p = val(value);
     return p != sentinel;
 }
 
@@ -155,7 +155,7 @@ void LinkedList::clear() {
 }
 
 void LinkedList::sort(int (*comp)(void *, void *)) {
-    ListItem *p = head;
+    ListItem *p;
     for (int i = 0; i < size - 1; ++i) {
         p = head;
         for (int j = 0; j < size - i - 1; ++j) {
@@ -165,16 +165,16 @@ void LinkedList::sort(int (*comp)(void *, void *)) {
     }
 }
 
-bool LinkedList::isEmpty() {
+bool LinkedList::isEmpty() const {
     return size == 0;
 }
 
-int LinkedList::getSize() {
+int LinkedList::getSize() const {
     return size;
 }
 
 void *LinkedList::pop() {
-        assert(isEmpty());
+    assert(isEmpty());
     void *value = tail->value;
     removeLast();
     return value;
@@ -182,18 +182,18 @@ void *LinkedList::pop() {
 }
 
 LinkedList::Iterator *LinkedList::iterator() {
-        return new Iterator(this);
+    return new Iterator(this);
 }
 
 bool LinkedList::removeLast() {
-        if (isEmpty()) {
+    if (isEmpty()) {
         return false;
     } else {
         ListItem *last = tail;
         unlink(last);
         tail = last->prev;
-        if(size==1){
-            head=tail;
+        if (size == 1) {
+            head = tail;
         }
         delete last;
         return true;
@@ -201,7 +201,7 @@ bool LinkedList::removeLast() {
 }
 
 bool LinkedList::addLast(void *value) {
-        auto *l = new ListItem(value, sentinel, tail);
+    auto *l = new ListItem(value, sentinel, tail);
     l->prev->next = l;
     l->next->prev = l;
     if (isEmpty()) {
@@ -213,7 +213,7 @@ bool LinkedList::addLast(void *value) {
 }
 
 bool LinkedList::addFirst(void *value) {
-        auto *l = new ListItem(value, head, sentinel);
+    auto *l = new ListItem(value, head, sentinel);
     l->prev->next = l;
     l->next->prev = l;
     if (isEmpty()) {
@@ -225,13 +225,13 @@ bool LinkedList::addFirst(void *value) {
 }
 
 bool LinkedList::removeFirst() {
-        if(isEmpty()) {return false;}
-    else{
+    if (isEmpty()) { return false; }
+    else {
         ListItem *first = head;
         unlink(first);
-        head=first->next;
-        if(size==1){
-            tail=head;
+        head = first->next;
+        if (size == 1) {
+            tail = head;
         }
         //TODO delete nodes Destructor
         delete first;
@@ -244,11 +244,11 @@ bool LinkedList::removeFirst() {
 LinkedList::LinkedList() {
 
     sentinel = new ListItem(nullptr, nullptr, nullptr);
-    sentinel->next=sentinel;
-    sentinel->prev=sentinel;
-    head=sentinel;
-    tail=sentinel;
-    size=0;
+    sentinel->next = sentinel;
+    sentinel->prev = sentinel;
+    head = sentinel;
+    tail = sentinel;
+    size = 0;
 }
 
 LinkedList::~LinkedList() {

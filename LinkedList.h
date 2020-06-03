@@ -221,13 +221,13 @@ public:
      *
      * @return true iff List is empty
      */
-    bool isEmpty();
+    bool isEmpty() const;
 
     /**
      *
      * @return Count of ListItems
      */
-    int getSize();
+    int getSize() const;
 
 
 };
