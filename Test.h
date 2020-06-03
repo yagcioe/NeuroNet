@@ -11,31 +11,52 @@
 
 class Test {
 
+
 public:
+    class UnexpectedValueException : public std::exception {
+        char *e;
+        char *g;
+    public:
+        UnexpectedValueException(char *expected, char *given);
+        ~UnexpectedValueException() override;
 
-    typedef void (*func )(void* args);
+        char *what();
 
-    class result{
+    };
+
+    typedef void (*func )(void *args);
+
+    struct result {
     public:
         std::string *name;
-        long start;
-        long end;
-        long duration;
+        unsigned long start;
+        unsigned long end;
+        unsigned long duration;
         bool success;
-        std::exception_ptr e;
+        std::exception *e;
 
-        std::string toString();
+        ~result() {
+            delete (name);
+        }
+
+        std::string *toString();
     };
+
 protected:
-    class TestCase{
+    class TestCase {
     public:
         std::string *name;
         func f;
-        TestCase(std::string *name,func f);
+
+        TestCase(std::string *name, func f);
     };
+
 public:
     int count();
-    explicit Test( void *params[]);
+    static void eq(void *a, void *b);
+    static void neq(void *a, void *b);
+    explicit Test(void *params[]);
+
     ~Test();
 
     /**
@@ -43,15 +64,16 @@ public:
      * @param args array of length of number of tests
      * @return array of results length of number of tests
      */
-    void run(void* args[]);
-    result* getResult();
-    void addTest(std::string* name,func);
+    void run(void *args[]);
+
+    result *getResult();
+
+    void addTest(std::string *name, func);
 
 private:
     void **params;
-    GenericList<TestCase>* tests;
-    result* r;
-
+    GenericList<TestCase> *tests;
+    result *r;
 
 
 };

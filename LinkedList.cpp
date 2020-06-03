@@ -3,7 +3,7 @@
 //
 
 #include <c++/4.8.3/cassert>
-#include <zconf.h>
+
 #include <c++/4.8.3/iostream>
 #include "LinkedList.h"
 
@@ -197,7 +197,7 @@ void *LinkedList::pop() {
 }
 
 LinkedList::Iterator *LinkedList::iterator() {
-    std::cout<<"Iterator from"<<std::endl;
+    std::cout<<"Iterator from List"<<std::endl;
     return new Iterator(this);
 }
 
@@ -253,6 +253,7 @@ bool LinkedList::removeFirst() {
         if(size==1){
             tail=head;
         }
+        //TODO delete nodes
         delete first;
         size--;
         return true;
@@ -284,12 +285,13 @@ LinkedList::~LinkedList() {
 */
 
 bool LinkedList::Iterator::hasNext() {
-    return outa->sentinel != p->next;
+    return outa->sentinel != p;
 }
 
 void *LinkedList::Iterator::next() {
     assert(hasNext());
-    return (p = p->next);
+
+    return (p = p->next)->prev->value;
 }
 
 LinkedList::Iterator::Iterator(LinkedList *daddy) {
