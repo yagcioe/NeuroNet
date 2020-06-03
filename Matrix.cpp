@@ -42,8 +42,7 @@ double **Matrix::clone2dArray(int rows, int cols, double **arr) {
         auto *row = (double *) (malloc(sizeof(double *) * cols));
         for (int j = 0; j < cols; ++j) {
             //elements must be primitive or = must be overridden
-            std::cout<<arr[i][j]<<std::endl;
-            row[j] = arr[i][j];
+                        row[j] = arr[i][j];
         }
 
         ret[i] = row;
@@ -161,7 +160,6 @@ std::string Matrix::toString(Matrix &m) {
             if (j != 0) {
                 s.append(", ");
             }
-            //std::cout<<m.values[i][j]<<" "<< std::endl;
             s.append(std::to_string(m.get(i, j)));
         }
 

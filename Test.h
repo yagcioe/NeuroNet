@@ -14,12 +14,11 @@ class Test {
 
 public:
     class UnexpectedValueException : public std::exception {
-        char *e;
-        char *g;
+        std::string *e;
+        std::string *g;
     public:
-        UnexpectedValueException(char *expected, char *given);
+        UnexpectedValueException(std::string* expected, std::string* given);
         ~UnexpectedValueException() override;
-
         char *what();
 
     };
@@ -33,7 +32,7 @@ public:
         unsigned long end;
         unsigned long duration;
         bool success;
-        std::exception *e;
+        UnexpectedValueException *e;
 
         ~result() {
             delete (name);
@@ -53,8 +52,14 @@ protected:
 
 public:
     int count();
-    static void eq(void *a, void *b);
-    static void neq(void *a, void *b);
+    static void eqadr(void *a, void *b);
+    static void neqadr(void *a, void *b);
+    template <class T> static void eq(T &a, T &b){
+        if (a != b) throw UnexpectedValueException(new std::string("NOT"), new std::string(""));
+    }
+    template <class T> static void neq(T &a, T &b){
+        if (a == b) throw UnexpectedValueException(new std::string("NOT"), new std::string(""));
+    }
     explicit Test(void *params[]);
 
     ~Test();
@@ -69,6 +74,7 @@ public:
     result *getResult();
 
     void addTest(std::string *name, func);
+    void printResult();
 
 private:
     void **params;
@@ -77,6 +83,8 @@ private:
 
 
 };
+
+
 
 
 #endif //NEURONET_TEST_H

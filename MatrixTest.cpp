@@ -2,7 +2,7 @@
 // Created by Oemer on 03.06.2020.
 //
 
-#include <assert.h>
+
 #include <c++/4.8.3/iostream>
 #include "Test.h"
 #include "Matrix.h"
@@ -15,22 +15,20 @@ void MatrixCloneTest(void*){
     Matrix m2=m.clone();
     for (int i = 0; i < 3 ; ++i) {
         //unterschiedliche speicheradressen
-        Test::neq(m.getRow(i),m2.getRow(i));
+        Test::neqadr(m.getRow(i),m2.getRow(i));
         for (int j = 0; j < 4; ++j) {
             //gleiche werte
-            Test::eq(&m.getRow(i)[j],&m2.getRow(i)[j]);
+            Test::eq(m.getRow(i)[j],m2.getRow(i)[j]);
         }
     }
 }
 
 void test(){
-    std::cout<<"start MAtrix test\n";
-    Test t(nullptr);
-    std::cout<<"add Clone test\n";
-    t.addTest( (new std::string("MatrixClone")), MatrixCloneTest);
+        Test t(nullptr);
+        t.addTest( (new std::string("MatrixClone")), MatrixCloneTest);
     t.run(nullptr);
     std::cout<<"Result:"<<*t.getResult()->toString()<<std::endl;
-    std::cout<<"end Of test"<<std::endl;
+
 
 }
 
