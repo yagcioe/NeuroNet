@@ -4,12 +4,12 @@
 
 #include "Test.h"
 
-Test::Test(void *params) {
-
+Test::Test(void *params): {
+    this->params=params;
 }
 
-bool Test::run() {
-    return false;
+const LinkedList * Test::run() {
+    return nullptr;
 }
 
 void Test::init() {

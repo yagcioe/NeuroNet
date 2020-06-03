@@ -6,14 +6,24 @@
 #define NEURONET_TEST_H
 
 
+#include <c++/4.8.3/string>
+#include "LinkedList.h"
+
 class Test {
 
 protected:
 
-    Test( void* params);
-    void init();
+    void* params;
+    LinkedList tests;
+    explicit Test( void* params);
 
-    bool run();
+    virtual void init();
+
+    virtual const LinkedList*  run();
+
+    void addTest(std::string Name,bool (*f)(void * args));
+
+
 };
 
 

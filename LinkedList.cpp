@@ -48,45 +48,38 @@ void LinkedList::unlink(LinkedList::ListItem *p) {
 
 //Main Methods
 bool LinkedList::add(void *value) {
-    ListItem l(value, sentinel, tail);
-    l.prev->next = &l;
-    l.next->prev = &l;
-    if (isEmpty()) {
-        head = &l;
-    }
-    tail = &l;
-    size++;
-    return true;
+    addLast(value);
 }
 
 bool LinkedList::addAt(int i, void *value) {
     size++;
     ListItem *p = LinkedList::pos(i);
 
-    ListItem l(value, p->prev, p);
+    auto *l = new ListItem(value, p->prev, p);
     if (size == 1) {
-        head = &l;
+        head = l;
     }
     if (i == size - 1) {
-        tail = &l;
+        tail = l;
     }
-    p->next->prev = &l;
-    p->next = &l;
+    p->next->prev = l;
+    p->next = l;
     return true;
 }
 
 bool LinkedList::remove(void *value) {
     ListItem *p = val(value);
     if (p != sentinel) {
-        if (head==p){
-            head= p->next;
+        if (head == p) {
+            head = p->next;
         }
-        if(tail==p){
-            tail=p->prev;
+        if (tail == p) {
+            tail = p->prev;
         }
         unlink(p);
+        delete p;
         size--;
-        p->~ListItem();
+
         return true;
     }
     return false;
@@ -94,15 +87,15 @@ bool LinkedList::remove(void *value) {
 
 bool LinkedList::removeAt(int i) {
     ListItem *p = LinkedList::pos(i);
-    if (head==p){
-        head= p->next;
+    if (head == p) {
+        head = p->next;
     }
-    if(tail==p){
-        tail=p->prev;
+    if (tail == p) {
+        tail = p->prev;
     }
     unlink(p);
+    delete p;
     size--;
-    p->~ListItem();
     return true;
 }
 
@@ -111,8 +104,8 @@ void *LinkedList::pop(void *value) {
     if (p != sentinel) {
         void *temp = p->value;
         unlink(p);
+        delete p;
         size--;
-        p->~ListItem();
         return temp;
     }
 
@@ -124,8 +117,8 @@ void *LinkedList::popAt(int i) {
     ListItem *p = pos(i);
     void *temp = p->value;
     unlink(p);
+    delete p;
     size--;
-    p->~ListItem();
     return temp;
 
 }
@@ -161,36 +154,118 @@ void LinkedList::clear() {
 }
 
 void LinkedList::sort(int (*comp)(void *, void *)) {
-    ListItem *p=head;
-    for (int i = 0; i <size-1 ; ++i) {
-        p=head;
-        for (int j = 0; j <size-i-1 ; ++j) {
-            if(comp(p,p->next)>0){swap(p,p->next);}
-            p=p->next;
+    ListItem *p = head;
+    for (int i = 0; i < size - 1; ++i) {
+        p = head;
+        for (int j = 0; j < size - i - 1; ++j) {
+            if (comp(p, p->next) > 0) { swap(p, p->next); }
+            p = p->next;
         }
     }
 }
 
 bool LinkedList::isEmpty() {
-    return size==0;
+    return size == 0;
 }
 
 int LinkedList::getSize() {
     return size;
 }
-//TODO
+
 void *LinkedList::pop() {
     assert(isEmpty());
+    void *value = tail->value;
+    removeLast();
+    return value;
 
 }
 
+LinkedList::Iterator *LinkedList::iterator() {
+    return new Iterator(this);
+}
+
+bool LinkedList::removeLast() {
+    if (isEmpty()) {
+        return false;
+    } else {
+        ListItem *last = tail;
+        unlink(last);
+        tail = last->prev;
+        if(size==1){
+            head=tail;
+        }
+        delete last;
+        return true;
+    }
+}
+
+bool LinkedList::addLast(void *value) {
+    auto *l = new ListItem(value, sentinel, tail);
+    l->prev->next = l;
+    l->next->prev = l;
+    if (isEmpty()) {
+        head = l;
+    }
+    tail = l;
+    size++;
+    return true;
+}
+
+bool LinkedList::addFirst(void *value) {
+    auto *l = new ListItem(value, head, sentinel);
+    l->prev->next = l;
+    l->next->prev = l;
+    if (isEmpty()) {
+        tail = l;
+    }
+    head = l;
+    size++;
+    return true;
+}
+
+bool LinkedList::removeFirst() {
+    if(isEmpty()) {return false;}
+    else{
+        ListItem *first = head;
+        unlink(first);
+        head=first->next;
+        if(size==1){
+            tail=head;
+        }
+        delete first;
+        size--;
+        return true;
+    }
+
+}
+
+LinkedList::LinkedList() {
+    sentinel = new ListItem(nullptr, nullptr, nullptr);
+    sentinel->next=sentinel;
+    sentinel->prev=sentinel;
+    head=sentinel;
+    tail=sentinel;
+    size=0;
+}
+
+/*bool LinkedList::deleteValue(void *value) {
+    void* v=pop(value);
+    if(v== nullptr) return false;
 
 
+}
+*/
 
+bool LinkedList::Iterator::hasNext() {
+    return outa->sentinel != p->next;
+}
 
+void *LinkedList::Iterator::next() {
+    assert(hasNext());
+    return (p = p->next);
+}
 
-
-
-
-
-
+LinkedList::Iterator::Iterator(LinkedList *daddy) {
+    outa = daddy;
+    p = daddy->head;
+}

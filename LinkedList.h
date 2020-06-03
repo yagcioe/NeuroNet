@@ -10,6 +10,7 @@ private:
     /**
      * basic LinkedList Item bilateral, with sentinel
      */
+
     class ListItem {
     public:
         ListItem(void *v, ListItem *n, ListItem *p) : value(v), next(n), prev(p) {}
@@ -17,6 +18,16 @@ private:
         void *value;
         ListItem *next;
         ListItem *prev;
+    };
+
+    class Iterator{
+    private:
+        ListItem *p;
+        LinkedList *outa;
+    public:
+        explicit Iterator(LinkedList* daddy);
+        bool hasNext();
+        void* next();
     };
 
     ListItem *head;
@@ -52,7 +63,7 @@ private:
     ListItem *val(void *value, bool doAssert = false);
 
     /**
-     *
+     *  make the linked list skip this node while remaining the nodes pointers
      * @param p ListItem to unlink
      * "removes" ListItem node from LinkedList
      */
@@ -60,6 +71,7 @@ private:
 
 //public List Manipulation
 public:
+    Iterator *iterator();
     /**
      * creates new Linked List
      */
@@ -122,6 +134,10 @@ public:
      */
 
     bool removeFirst();
+
+    //bool deleteValue(void* value);
+
+    //bool deleteAt(int i);
 
     /**
      * Removes last element in List
