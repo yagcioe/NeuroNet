@@ -86,6 +86,8 @@ public:
      */
     LinkedList();
 
+    ~LinkedList();
+
     /**
      * adds value to the List
      * @param value

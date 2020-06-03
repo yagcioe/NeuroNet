@@ -13,17 +13,18 @@ class Test {
 
 public:
 
-
-
     typedef void (*func )(void* args);
 
     class result{
-        std::string name;
+    public:
+        std::string *name;
         long start;
         long end;
         long duration;
         bool success;
-        std::exception e;
+        std::exception_ptr e;
+
+        std::string toString();
     };
 protected:
     class TestCase{
@@ -34,18 +35,22 @@ protected:
     };
 public:
     int count();
-    void **params;
-    GenericList<TestCase>* tests;
     explicit Test( void *params[]);
+    ~Test();
 
     /**
      *
      * @param args array of length of number of tests
      * @return array of results length of number of tests
      */
-    result* run(void* args[]);
-
+    void run(void* args[]);
+    result* getResult();
     void addTest(std::string* name,func);
+
+private:
+    void **params;
+    GenericList<TestCase>* tests;
+    result* r;
 
 
 

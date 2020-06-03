@@ -15,6 +15,10 @@ public:
     GenericList() {
         list = new LinkedList();
     }
+    ~GenericList(){
+        std::cout<<"fuck this List"<<std::endl;
+        list->~LinkedList();
+    }
 
     class Iterator {
     private:
