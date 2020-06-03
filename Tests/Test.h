@@ -7,7 +7,7 @@
 
 
 #include <c++/4.8.3/string>
-#include "GenericList.h"
+#include "../GenericList.h"
 
 class Test {
 

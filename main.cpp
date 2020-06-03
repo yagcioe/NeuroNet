@@ -1,5 +1,5 @@
 #include <iostream>
-#include "MatrixTest.h"
+#include "Tests/MatrixTest.h"
 
 int main() {
  test();

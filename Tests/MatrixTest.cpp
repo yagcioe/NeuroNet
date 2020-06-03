@@ -5,7 +5,7 @@
 
 #include <c++/4.8.3/iostream>
 #include "Test.h"
-#include "Matrix.h"
+#include "../Matrix.h"
 
 void MatrixCloneTest(void*){
     Matrix m(3,4);
