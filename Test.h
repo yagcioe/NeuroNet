@@ -12,8 +12,13 @@
 class Test {
 
 public:
-    typedef void (*func )(void * args);
-    struct result{
+
+
+
+    typedef void (*func )(void* args);
+
+    class result{
+        std::string name;
         long start;
         long end;
         long duration;
@@ -23,19 +28,22 @@ public:
 protected:
     class TestCase{
     public:
-        std::string name;
+        std::string *name;
         func f;
-        TestCase(std::string name,func f);
+        TestCase(std::string *name,func f);
     };
 public:
-
-    void* params;
+    int count();
+    void **params;
     GenericList<TestCase>* tests;
-    explicit Test( void* params);
+    explicit Test( void *params[]);
 
-    void init();
-
-    result* run(void** args);
+    /**
+     *
+     * @param args array of length of number of tests
+     * @return array of results length of number of tests
+     */
+    result* run(void* args[]);
 
     void addTest(std::string* name,func);
 
