@@ -7,28 +7,38 @@
 
 
 #include <c++/4.8.3/string>
-#include "LinkedList.h"
+#include "GenericList.h"
 
 class Test {
+
 public:
-    typedef bool (*func )(void * args);
+    typedef void (*func )(void * args);
     struct result{
         long start;
         long end;
         long duration;
         bool success;
+        std::exception e;
     };
 protected:
+    class TestCase{
+    public:
+        std::string name;
+        func f;
+        TestCase(std::string name,func f);
+    };
+public:
 
     void* params;
-    LinkedList tests;
+    GenericList<TestCase>* tests;
     explicit Test( void* params);
 
-    virtual void init();
+    void init();
 
-    virtual const LinkedList*  run();
+    result* run(void** args);
 
-    void addTest(std::string Name,func);
+    void addTest(std::string* name,func);
+
 
 
 };

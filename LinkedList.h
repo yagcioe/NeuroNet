@@ -62,7 +62,7 @@ protected:
     static void unlink(ListItem *p);
 
 //List Manipulation
-
+public:
 
     class Iterator{
     private:
@@ -75,7 +75,8 @@ protected:
         explicit Iterator(LinkedList* daddy);
         virtual void* next();
     };
-    /**
+
+     /**
      *
      * @return iterator of list
      */
