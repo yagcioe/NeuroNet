@@ -27,4 +27,3 @@ void Gauss::setSigma(double sig) {
 double Gauss::getSigma() const {
     return sigma;
 }
-
