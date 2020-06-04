@@ -22,9 +22,9 @@ public:
 
     LinearFunction(double a, double m);
 
-    double f(R2 &x)const override;
+    double f(R2 &x)const;
 
-    R2* df(R2 &x) const override;
+    R2* df(R2 &x) const;
 
 
 };

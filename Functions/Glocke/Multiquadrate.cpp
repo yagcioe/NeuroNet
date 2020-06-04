@@ -4,11 +4,11 @@
 
 #include "Multiquadrate.h"
 
-double Multiquadrate::f(R2& x) {
+double Multiquadrate::f(R2& x) const{
     return sqrt((x.d1+x.d2)*(x.d1+x.d2)+a2);
 }
 
-R3* Multiquadrate::df(R2& x) {
+R3* Multiquadrate::df(R2& x) const{
     double u =x.d1-x.d2;
     double v= 1/(sqrt((x.d1*-x.d2)*(x.d1*-x.d2)));
     R3 *r= new R3 {u*v,(-u)*v,a*v};

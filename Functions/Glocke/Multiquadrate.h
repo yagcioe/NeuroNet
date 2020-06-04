@@ -14,8 +14,8 @@ class Multiquadrate: public IFunction<R2,double,R3> {
     double a2;
 public:
     explicit Multiquadrate(double alpha);
-    double f(R2& x) override;
-    R3* df(R2& x) override;
+    double f(R2& x) const;
+    R3* df(R2& x) const;
     void setAlpha(double alpha);
     double getAlpha() const;
 

@@ -51,8 +51,8 @@ struct R {
 template<class Defintionsbereich, class Bild, typename Gradient>
 class IFunction {
 public:
-    virtual Bild f(Defintionsbereich &x) const ;
-    virtual Gradient * df(R2 &x) const ;
+    Bild f(Defintionsbereich &x) const;
+    Gradient * df(R2 &x) const;
 
 };
 

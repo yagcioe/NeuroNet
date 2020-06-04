@@ -18,8 +18,8 @@ public:
 
 
     explicit Gauss(double sigma);
-    double f(R2& x) override;
-    R3 * df(R2& x) override;
+    double f(R2& x) const;
+    R3 * df(R2& x) const;
     void setSigma(double sigma);
     double getSigma() const;
 

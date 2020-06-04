@@ -6,11 +6,11 @@
 
 Gauss::Gauss(double sigma):sigma(sigma),sigma2(sigma*sigma),sigma3(sigma2*sigma){}
 
-double Gauss::f(R2 &x) {
+double Gauss::f(R2 &x) const {
     return exp(-(((x.d1-x.d2)*(x.d1-x.d2))/(2*sigma2)));
 }
 
-R3* Gauss::df(R2& x) {
+R3* Gauss::df(R2& x) const{
     auto r = new R3;
     double u=(x.d2-x.d1)/(sigma2);
     r->d1=u*f(x);
