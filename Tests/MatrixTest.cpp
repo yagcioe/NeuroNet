@@ -5,7 +5,7 @@
 
 #include <c++/4.8.3/iostream>
 #include "Test.h"
-#include "../Matrix.h"
+#include "../Util/Matrix.h"
 
 void MatrixCloneTest(void*){
     Matrix m(3,4);
@@ -24,10 +24,10 @@ void MatrixCloneTest(void*){
 }
 
 void test(){
-        Test t(nullptr);
-        t.addTest( (new std::string("MatrixClone")), MatrixCloneTest);
+    Test t(nullptr);
+    t.addTest( (new std::string("MatrixClone")), MatrixCloneTest);
     t.run(nullptr);
-    std::cout<<"Result:"<<*t.getResult()->toString()<<std::endl;
+    t.printResult();
 
 
 }

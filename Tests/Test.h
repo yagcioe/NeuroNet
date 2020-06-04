@@ -7,7 +7,7 @@
 
 
 #include <c++/4.8.3/string>
-#include "../GenericList.h"
+#include "../Util/GenericList.h"
 
 class Test {
 
@@ -38,7 +38,7 @@ public:
             delete (name);
         }
 
-        std::string *toString();
+        std::string *toString() const;
     };
 
 protected:

@@ -5,6 +5,8 @@
 
 #include <chrono>
 #include <c++/4.8.3/stdexcept>
+#include <c++/4.8.3/cstring>
+#include <c++/4.8.3/iostream>
 #include "Test.h"
 
 Test::Test(void *params[]) {
@@ -22,6 +24,7 @@ void Test::run(void *args[]) {
         auto n2 = (char *) (malloc(sizeof(char) * (tc->name->length())));
         tc->name->copy(n2, tc->name->length());
         r[k].name = new std::string(n2);
+        //TODO make time record work
         r[k].start = std::time(nullptr);
         r[k].success = true;
         try {
@@ -77,7 +80,16 @@ void Test::eqadr(void *a, void *b) {
 
 }
 
+void Test::printResult() {
+    std::cout<<"========== Test Results ==========\n";
+    for (int i = 0; i <count() ; ++i) {
+        std::cout<<"\n";
+        auto s = r[i].toString();
+        std::cout<<*s<<"\n";
+        delete s;
+    }
 
+}
 
 
 Test::TestCase::TestCase(std::string *name, Test::func
@@ -86,7 +98,7 @@ f) {
     this->name = name;
 }
 
-std::string *Test::result::toString() {
+std::string *Test::result::toString() const {
     //copy name
     char *n2 = static_cast<char *>(malloc(sizeof(char) * name->length() + 1));
     name->copy(n2, name->length());
@@ -106,7 +118,8 @@ char *Test::UnexpectedValueException::what() {
     std::string s("UnexpectedValueException: Expected ");
     s.append(*e).append("but ").append(*g).append("was given.");
     auto c = new char[s.length() + 1];
-    memcpy(c, s.c_str(), s.length() + 1 * sizeof(char));
+    strncpy(c, s.c_str(), s.length() + 1 * sizeof(char));
+    c[s.length() + 1 * sizeof(char)] = '\0';
     return c;
 }
 
