@@ -2,9 +2,10 @@
 // Created by Oemer on 02.06.2020.
 //
 
-#include <c++/4.8.3/cassert>
 
-#include <c++/4.8.3/iostream>
+
+
+#include <cassert>
 #include "LinkedList.h"
 
 //private Utility functions

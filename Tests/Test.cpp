@@ -4,9 +4,9 @@
 
 
 #include <chrono>
-#include <c++/4.8.3/stdexcept>
-#include <c++/4.8.3/cstring>
-#include <c++/4.8.3/iostream>
+#include <iostream>
+#include <cstring>
+
 #include "Test.h"
 
 Test::Test(void *params[]) {
@@ -15,18 +15,34 @@ Test::Test(void *params[]) {
     r = nullptr;
 }
 
-void Test::run(void *args[]) {
+//testmethod to fund mem leak
+char* Test::en(TestCase *tc){
+    return new char[tc->name->length()+1];
+
+}
+std::string* str(char* n){
+    return new std::string(n);
+}
+
+void Test::allocateR(){
     delete[] r;
     r = new result[count()];
+}
+
+
+void Test::run(void *args[]) {
+    allocateR();
     int k = 0;
     for (GenericList<TestCase>::Iterator i = *tests->iterator(); i.hasNext(); k++) {
         TestCase *tc = i.next();
-        auto n2 = (char *) (malloc(sizeof(char) * (tc->name->length())));
-        tc->name->copy(n2, tc->name->length());
-        r[k].name = new std::string(n2);
+
+        //copy string
+        r[k].name = new std::string(*tc->name);
+
         //TODO make time record work
         r[k].start = std::time(nullptr);
         r[k].success = true;
+        r[k].e= nullptr;
         try {
             if (args == nullptr) {
 
@@ -49,7 +65,7 @@ void Test::run(void *args[]) {
     }
 }
 
-void Test::addTest(std::string *name, Test::func f) {
+void Test::addTest(std::string &name, Test::func f) {
     tests->add(new TestCase(name, f));
 }
 
@@ -62,8 +78,15 @@ Test::result *Test::getResult() {
 }
 
 Test::~Test() {
-    delete this->params;
-    delete this->tests;
+    delete params;
+    while(!tests->isEmpty()){
+        tests->deleteAt(0);
+    }
+    delete tests;
+    /*if(r!= nullptr){
+    for(int i = 0;i<count();i++){
+      r[i].~result();
+    }}*/
     delete[] this->r;
 }
 
@@ -91,18 +114,27 @@ void Test::printResult() {
 
 }
 
-
-Test::TestCase::TestCase(std::string *name, Test::func
+/**
+ *
+ * @param name string whitch is going to be copied
+ * @param f
+ */
+Test::TestCase::TestCase(std::string &name, Test::func
 f) {
     this->f = f;
-    this->name = name;
+    this->name = new std::string(name);
+}
+
+Test::TestCase::~TestCase() {
+    delete name;
+
 }
 
 std::string *Test::result::toString() const {
-    //copy name
-    char *n2 = static_cast<char *>(malloc(sizeof(char) * name->length() + 1));
-    name->copy(n2, name->length());
+    auto n2= new char[name->length()+1];
+    std::strncpy(n2,name->c_str(), name->length()+1);
     auto *s = new std::string(n2);
+    delete[] n2;
     s->append(": ");
     if (success) {
         s->append("SUCCESS!!! \n");
@@ -118,7 +150,7 @@ char *Test::UnexpectedValueException::what() {
     std::string s("UnexpectedValueException: Expected ");
     s.append(*e).append("but ").append(*g).append("was given.");
     auto c = new char[s.length() + 1];
-    strncpy(c, s.c_str(), s.length() + 1 * sizeof(char));
+    strncpy(c, s.c_str(), s.length() * sizeof(char));
     c[s.length() + 1 * sizeof(char)] = '\0';
     return c;
 }

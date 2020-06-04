@@ -6,7 +6,7 @@
 #include <cassert>
 #include "Matrix.h"
 #include <stdio.h>
-#include <c++/4.8.3/iostream>
+
 
 /**
  *
@@ -51,9 +51,10 @@ double **Matrix::clone2dArray(int rows, int cols, double **arr) {
     return ret;
 }
 
-Matrix Matrix::clone() {
-    Matrix ret(dim.n, dim.m, Matrix::clone2dArray(dim.n, dim.m, this->values));
-    return ret;
+Matrix* Matrix::clone() {
+
+    return new Matrix(dim.n, dim.m, Matrix::clone2dArray(dim.n, dim.m, this->values));
+
 }
 
 
@@ -81,6 +82,7 @@ double *Matrix::getCol(int i) {
     for (int j = 0; j < dim.n; ++j) {
         col[j] = values[j][i];
     }
+    return col;
 }
 
 void Matrix::set(int row, int col, double d) {
@@ -136,13 +138,14 @@ Matrix Matrix::matmul(Matrix &m1, Matrix &m2) {
 }
 
 
-Matrix Matrix::scale(double d, Matrix m) {
-    Matrix mm = m.clone();
+Matrix* Matrix::scale(double d, Matrix m) {
+    Matrix *mm = m.clone();
     for (int i = 0; i < m.dim.n; ++i) {
         for (int j = 0; j < m.dim.m; ++j) {
-            mm.set(i, j, m.get(i, j) * d);
+            mm->set(i, j, m.get(i, j) * d);
         }
     }
+    return mm;
 }
 
 
@@ -168,6 +171,13 @@ std::string Matrix::toString(Matrix &m) {
     }
     s.append("]");
     return s;
+}
+
+Matrix::~Matrix() {
+    for (int i = 0; i <dim.n ; ++i) {
+        delete[] values[i];
+    }
+    delete [] values;
 }
 
 

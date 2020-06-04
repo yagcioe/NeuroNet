@@ -6,7 +6,7 @@
 #define NEURONET_IFUNCTION_H
 
 #include <cmath>
-#include <c++/4.8.3/cstdlib>
+
 
 struct R2 {
     double d1;

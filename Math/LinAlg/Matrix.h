@@ -18,13 +18,14 @@ private:
 public:
     explicit Matrix(int rows,int cols,double** arrOfValues);
     explicit Matrix(int rows,int cols);
+    ~Matrix();
     Dimension getDim();
 
     //double** getValueArray();
     Matrix operator *(Matrix &m);
     static Matrix matmul(Matrix &m1,Matrix &m2);
-    static Matrix scale(double d, Matrix m);
-    Matrix clone();
+    static Matrix * scale(double d, Matrix m);
+    Matrix * clone();
     double get(int row,int col);
     double* getRow(int i);
     double* getCol(int i);

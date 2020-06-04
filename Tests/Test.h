@@ -6,7 +6,9 @@
 #define NEURONET_TEST_H
 
 
-#include <c++/4.8.3/string>
+
+
+#include <string>
 #include "../Util/GenericList.h"
 
 class Test {
@@ -47,7 +49,8 @@ protected:
         std::string *name;
         func f;
 
-        TestCase(std::string *name, func f);
+        TestCase(std::string &name, func f);
+        ~TestCase();
     };
 
 public:
@@ -73,7 +76,7 @@ public:
 
     result *getResult();
 
-    void addTest(std::string *name, func);
+    void addTest(std::string &name, func);
     void printResult();
 
 private:
@@ -82,6 +85,9 @@ private:
     result *r;
 
 
+    void allocateR();
+
+    char *en(TestCase *tc);
 };
 
 

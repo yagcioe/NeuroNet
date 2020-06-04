@@ -6,7 +6,7 @@
 #define NEURONET_NODE_H
 
 
-#include "Functions/IFunction.h"
+#include "../Math/Functions/IFunction.h"
 
 template<typename Definitionsbereich,typename Gradient>
 class Node {
