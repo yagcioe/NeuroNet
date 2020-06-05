@@ -30,15 +30,13 @@ public:
     struct result {
     public:
         std::string *name;
-        unsigned long start;
-        unsigned long end;
-        unsigned long duration;
+        time_t start;
+        time_t end;
+        time_t duration;
         bool success;
         UnexpectedValueException *e;
 
-        ~result() {
-            delete (name);
-        }
+        ~result();
 
         std::string *toString() const;
     };
@@ -88,6 +86,8 @@ private:
     void allocateR();
 
     char *en(TestCase *tc);
+
+    void ss(int k, TestCase *tc);
 };
 
 

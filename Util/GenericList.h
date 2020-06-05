@@ -17,7 +17,7 @@ public:
     }
     ~GenericList(){
 
-        list->~LinkedList();
+        delete list;
     }
 
     class Iterator {
@@ -31,6 +31,9 @@ public:
         explicit Iterator(LinkedList *daddy) {
             it = daddy->iterator();
         };
+        ~Iterator(){
+            delete it;
+        }
 
         T *next() {
             return (T *) it->next();

@@ -234,7 +234,6 @@ bool LinkedList::removeFirst() {
         if (size == 1) {
             tail = head;
         }
-        //TODO delete nodes Destructor
         delete first;
         size--;
         return true;

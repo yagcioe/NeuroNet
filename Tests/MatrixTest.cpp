@@ -6,12 +6,9 @@
 
 #include "Test.h"
 #include "../Math/LinAlg/Matrix.h"
-
+/*
 void MatrixCloneTest(void*){
     Matrix m(3,4);
-    m.setRow(0,  new double[4]  {1,2,3,4});
-    m.setRow(1,new double[4]{5,6,7,8});
-    m.setRow(2,new double[4]{9,10,11,12});
     Matrix *m2=m.clone();
     for (int i = 0; i < 3 ; ++i) {
         //unterschiedliche speicheradressen
@@ -23,12 +20,13 @@ void MatrixCloneTest(void*){
     }
     delete m2;
 }
-
+*/
 void test(){
     Test t(nullptr);
     std::string s("MatrixClone");
-    t.addTest(s, MatrixCloneTest);
+    //t.addTest(s, MatrixCloneTest);
     t.run(nullptr);
     t.printResult();
+
 }
 

@@ -7,7 +7,11 @@
 
 //TODO
 class Graph {
+private:
+    //TODO make extend generic MAtrix
+    class NodeVector{
 
+    };
 
 };
 

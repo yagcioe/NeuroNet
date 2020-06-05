@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cstring>
 
+
 #include "Test.h"
 
 Test::Test(void *params[]) {
@@ -15,34 +16,23 @@ Test::Test(void *params[]) {
     r = nullptr;
 }
 
-//testmethod to fund mem leak
-char* Test::en(TestCase *tc){
-    return new char[tc->name->length()+1];
-
-}
-std::string* str(char* n){
-    return new std::string(n);
-}
-
-void Test::allocateR(){
+void Test::run(void *args[]) {
     delete[] r;
     r = new result[count()];
-}
-
-
-void Test::run(void *args[]) {
-    allocateR();
     int k = 0;
-    for (GenericList<TestCase>::Iterator i = *tests->iterator(); i.hasNext(); k++) {
-        TestCase *tc = i.next();
+    GenericList<TestCase>::Iterator *i = tests->iterator();
+    for (; i->hasNext(); k++) {
+        TestCase *tc = i->next();
 
         //copy string
+        //or this might get leaked
+
         r[k].name = new std::string(*tc->name);
 
-        //TODO make time record work
-        r[k].start = std::time(nullptr);
+        //TODO make time record more precise
+        r[k].start = clock();
         r[k].success = true;
-        r[k].e= nullptr;
+        r[k].e = nullptr;
         try {
             if (args == nullptr) {
 
@@ -58,11 +48,12 @@ void Test::run(void *args[]) {
             r[k].e = &ue;
         }
 
-        r[k].end = std::time(nullptr);
-        r[k].duration = r[k].end - r[k].start;
 
 
+        r[k].end = clock();
+        std::cout<<r[k].start;
     }
+    delete i;
 }
 
 void Test::addTest(std::string &name, Test::func f) {
@@ -79,18 +70,12 @@ Test::result *Test::getResult() {
 
 Test::~Test() {
     delete params;
-    while(!tests->isEmpty()){
+    while (!tests->isEmpty()) {
         tests->deleteAt(0);
     }
     delete tests;
-    /*if(r!= nullptr){
-    for(int i = 0;i<count();i++){
-      r[i].~result();
-    }}*/
-    delete[] this->r;
+    delete[] r;
 }
-
-//TODO make strings
 
 
 void Test::neqadr(void *a, void *b) {
@@ -104,11 +89,11 @@ void Test::eqadr(void *a, void *b) {
 }
 
 void Test::printResult() {
-    std::cout<<"========== Test Results ==========\n";
-    for (int i = 0; i <count() ; ++i) {
-        std::cout<<"\n";
+    std::cout << "========== Test Results ==========\n";
+    for (int i = 0; i < count(); ++i) {
+        std::cout << "\n";
         auto s = r[i].toString();
-        std::cout<<*s<<"\n";
+        std::cout << *s << "\n";
         delete s;
     }
 
@@ -131,8 +116,8 @@ Test::TestCase::~TestCase() {
 }
 
 std::string *Test::result::toString() const {
-    auto n2= new char[name->length()+1];
-    std::strncpy(n2,name->c_str(), name->length()+1);
+    auto n2 = new char[name->length() + 1];
+    std::strncpy(n2, name->c_str(), name->length() + 1);
     auto *s = new std::string(n2);
     delete[] n2;
     s->append(": ");
@@ -141,8 +126,14 @@ std::string *Test::result::toString() const {
     } else {
         s->append("FAILED: ").append(e->what()).append("\n");
     }
-    s->append("duration: ").append(std::to_string((long) duration)).append("\n");
+    s->append("duration: ").append(std::to_string((long) duration)).append("ms\n");
     return s;
+}
+
+Test::result::~result() {
+    delete name;
+    delete e;
+
 }
 
 
