@@ -8,6 +8,7 @@
 #include <c++/4.8.3/string>
 
 class IGenericMatrixValue{
+public:
     virtual std::string *toString();
     virtual IGenericMatrixValue operator*(IGenericMatrixValue &o);
     virtual void operator=(IGenericMatrixValue &o);
