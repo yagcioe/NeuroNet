@@ -14,4 +14,4 @@ public:
     virtual void operator=(IGenericMatrixValue &o);
     virtual IGenericMatrixValue clone();
 };
-#endif //NEURONET_IGENERICMATRIXVALUE_H
+#endif NEURONET_IGENERICMATRIXVALUE_H
