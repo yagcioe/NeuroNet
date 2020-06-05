@@ -6,27 +6,24 @@
 
 #include "Test.h"
 #include "../Math/LinAlg/Matrix.h"
-/*
-void MatrixCloneTest(void*){
-    Matrix m(3,4);
-    Matrix *m2=m.clone();
-    for (int i = 0; i < 3 ; ++i) {
-        //unterschiedliche speicheradressen
-        Test::neqadr(m.getRow(i),m2->getRow(i));
-        for (int j = 0; j < 4; ++j) {
-            //gleiche werte
-            Test::eq(m.getRow(i)[j],m2->getRow(i)[j]);
-        }
-    }
-    delete m2;
+#include "../Math/LinAlg/MatrixValueTest.h"
+
+void testConstructor(void* p){
+
+    //sollte mit nullpointer initialisiert sein
+    Matrix<MatrixValueTest> m(3,4);
+    Test::eqadr((void *) 4, (void *) m.rows());
+
+
 }
-*/
+
 void test(){
     Test t(nullptr);
-    std::string s("MatrixClone");
-    //t.addTest(s, MatrixCloneTest);
+    std::string t1("Matrix");
+    t.addTest(t1, testConstructor);
     t.run(nullptr);
     t.printResult();
 
 }
+
 

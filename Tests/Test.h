@@ -53,13 +53,16 @@ protected:
 
 public:
     int count();
+
     static void eqadr(void *a, void *b);
     static void neqadr(void *a, void *b);
-    template <class T> static void eq(T &a, T &b){
-        if (a != b) throw UnexpectedValueException(new std::string("NOT"), new std::string(""));
+
+
+    template <class T> static void eq(T expected, T given){
+        if (expected != given) throw UnexpectedValueException(new std::string("NOT"), new std::string(""));
     }
-    template <class T> static void neq(T &a, T &b){
-        if (a == b) throw UnexpectedValueException(new std::string("NOT"), new std::string(""));
+    template <class T> static void neq(T &expected, T &given){
+        if (expected == given) throw UnexpectedValueException(new std::string("NOT"), new std::string(""));
     }
     explicit Test(void *params[]);
 
@@ -82,12 +85,6 @@ private:
     GenericList<TestCase> *tests;
     result *r;
 
-
-    void allocateR();
-
-    char *en(TestCase *tc);
-
-    void ss(int k, TestCase *tc);
 };
 
 

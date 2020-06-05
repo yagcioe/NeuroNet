@@ -49,9 +49,9 @@ void Test::run(void *args[]) {
         }
 
 
-
         r[k].end = clock();
-        std::cout<<r[k].start;
+        r[k].duration = ((r[k].end - r[k].start) * 1000) / ((double) CLOCKS_PER_SEC);
+        std::cout << r[k].start;
     }
     delete i;
 }
@@ -79,7 +79,13 @@ Test::~Test() {
 
 
 void Test::neqadr(void *a, void *b) {
-    if (a == b) throw UnexpectedValueException(new std::string("NOT"), new std::string(""));
+
+    if (a == b) {
+        auto *expected = new std::string("NOT");
+        expected->append(std::to_string((unsigned long) a));
+        auto *given = new std::string(std::to_string((unsigned long) b));
+        throw UnexpectedValueException(expected, given);
+    }
 
 }
 
