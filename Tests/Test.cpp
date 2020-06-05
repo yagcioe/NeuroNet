@@ -51,7 +51,6 @@ void Test::run(void *args[]) {
 
         r[k].end = clock();
         r[k].duration = ((r[k].end - r[k].start) * 1000) / ((double) CLOCKS_PER_SEC);
-        std::cout << r[k].start;
     }
     delete i;
 }
@@ -83,6 +82,7 @@ void Test::neqadr(void *a, void *b) {
     if (a == b) {
         auto *expected = new std::string("NOT");
         expected->append(std::to_string((unsigned long) a));
+        std::cout<<"e:"<<*expected;
         auto *given = new std::string(std::to_string((unsigned long) b));
         throw UnexpectedValueException(expected, given);
     }
@@ -90,7 +90,11 @@ void Test::neqadr(void *a, void *b) {
 }
 
 void Test::eqadr(void *a, void *b) {
-    if (a != b) throw UnexpectedValueException(new std::string(""), new std::string(""));
+    if (a != b){
+        auto *expected = new std::string(std::to_string((long) a));
+        auto *given = new std::string(std::to_string((long) b));
+        throw UnexpectedValueException(expected, given);
+        }
 
 }
 
@@ -145,7 +149,7 @@ Test::result::~result() {
 
 char *Test::UnexpectedValueException::what() {
     std::string s("UnexpectedValueException: Expected ");
-    s.append(*e).append("but ").append(*g).append("was given.");
+    s.append(*e).append(" but ").append(*g).append(" was given.");
     auto c = new char[s.length() + 1];
     strncpy(c, s.c_str(), s.length() * sizeof(char));
     c[s.length() + 1 * sizeof(char)] = '\0';
