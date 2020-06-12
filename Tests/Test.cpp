@@ -59,6 +59,12 @@ void Test::addTest(std::string &name, Test::func f) {
     tests->add(new TestCase(name, f));
 }
 
+void Test::addTest(char *name, Test::func f) {
+    auto s = new std::string(name);
+    addTest(*s,f);
+}
+
+
 int Test::count() {
     return tests->getSize();
 }
@@ -108,6 +114,7 @@ void Test::printResult() {
     }
 
 }
+
 
 /**
  *

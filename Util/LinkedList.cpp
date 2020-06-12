@@ -17,16 +17,13 @@ void LinkedList::swap(LinkedList::ListItem *l1, LinkedList::ListItem *l2) {
 
 LinkedList::ListItem *LinkedList::pos(int i) {
     assert(i < size && "Index out of Range");
+    assert(i >= 0 && "Index too small");
     ListItem *p = head;
-    if (i < 0) {
-        for (int k = i; k != 0; k++) {
-            p = p->prev;
-        }
-    } else {
-        for (int k = i; k != 0; k--) {
-            p = p->next;
-        }
+
+    for (int k = i; k > 0; k--) {
+        p = p->next;
     }
+
     return p;
 }
 
@@ -57,15 +54,15 @@ bool LinkedList::addAt(int i, void *value) {
     size++;
     ListItem *p = LinkedList::pos(i);
 
-    auto *l = new ListItem(value, p->prev, p);
+    auto *l = new ListItem(value, p, p->prev);
     if (size == 1) {
         head = l;
     }
     if (i == size - 1) {
         tail = l;
     }
-    p->next->prev = l;
-    p->next = l;
+    l->prev->next = l;
+    l->next->prev = l;
     return true;
 }
 
@@ -242,7 +239,6 @@ bool LinkedList::removeFirst() {
 }
 
 LinkedList::LinkedList() {
-
     sentinel = new ListItem(nullptr, nullptr, nullptr);
     sentinel->next = sentinel;
     sentinel->prev = sentinel;

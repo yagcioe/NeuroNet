@@ -1,7 +1,7 @@
 #include <iostream>
-#include "Tests/MatrixTest.h"
+#include "Tests/LinkedListTest.h"
 #include "Util/TestClass.h"
 
 int main() {
- test();
+ testRun();
 }

@@ -8,6 +8,8 @@
 #include "../Math/LinAlg/Matrix.h"
 #include "../Math/LinAlg/MatrixValueTest.h"
 
+
+//TODO
 void testConstructor(void* p){
 
     //sollte mit nullpointer initialisiert sein

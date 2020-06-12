@@ -6,8 +6,6 @@
 #define NEURONET_TEST_H
 
 
-
-
 #include <string>
 #include "../Util/GenericList.h"
 
@@ -19,8 +17,10 @@ public:
         std::string *e;
         std::string *g;
     public:
-        UnexpectedValueException(std::string* expected, std::string* given);
+        UnexpectedValueException(std::string *expected, std::string *given);
+
         ~UnexpectedValueException() override;
+
         char *what();
 
     };
@@ -48,6 +48,7 @@ protected:
         func f;
 
         TestCase(std::string &name, func f);
+
         ~TestCase();
     };
 
@@ -55,15 +56,20 @@ public:
     int count();
 
     static void eqadr(void *a, void *b);
+
     static void neqadr(void *a, void *b);
 
 
-    template <class T> static void eq(T expected, T given){
+    template<class T>
+    static void eq(T expected, T given) {
         if (expected != given) throw UnexpectedValueException(new std::string("NOT"), new std::string(""));
     }
-    template <class T> static void neq(T &expected, T &given){
+
+    template<class T>
+    static void neq(T &expected, T &given) {
         if (expected == given) throw UnexpectedValueException(new std::string("NOT"), new std::string(""));
     }
+
     explicit Test(void *params[]);
 
     ~Test();
@@ -78,6 +84,8 @@ public:
     result *getResult();
 
     void addTest(std::string &name, func);
+    void addTest(char* name, func);
+
     void printResult();
 
 private:
@@ -86,8 +94,6 @@ private:
     result *r;
 
 };
-
-
 
 
 #endif //NEURONET_TEST_H

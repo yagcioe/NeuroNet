@@ -225,8 +225,30 @@ public:
         return list->getSize();
     }
 
+    bool addCopy(T *value){
+        T *v = new T(*value);
+
+        return list->add(&v);
+    }
+
+    bool addLastCopy(T *value){
+        T *v = new T(*value);
+        return list->addLast(v);
+    }
+
+    bool addFirstCopy(T *value){
+        T *v = new T(*value);
+        return list->addFirst(&v);
+    }
+
+    bool addAtCopy(int i, T * value){
+        T *v = new T(*value);
+        return list->addAt(i,&v);
+    }
+
 
 };
+
 
 
 #endif //NEURONET_GENERICLIST_H
