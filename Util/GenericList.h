@@ -12,11 +12,11 @@ template<class T>
 class GenericList {
     LinkedList *list;
 public:
-    GenericList() {
-        list = new LinkedList();
-    }
+    GenericList():list(new LinkedList){};
     ~GenericList(){
-
+        while(!isEmpty()){
+            deleteAt(0);
+        }
         delete list;
     }
 

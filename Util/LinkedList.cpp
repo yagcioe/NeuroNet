@@ -6,6 +6,7 @@
 
 
 #include <cassert>
+
 #include "LinkedList.h"
 
 //private Utility functions
@@ -102,6 +103,12 @@ void *LinkedList::pop(void *value) {
     ListItem *p = val(value);
     if (p != sentinel) {
         void *temp = p->value;
+        if(p==head){
+            head=head->next;
+        }
+        if(p==tail){
+            tail=tail->prev;
+        }
         unlink(p);
         delete p;
         size--;
@@ -114,6 +121,12 @@ void *LinkedList::pop(void *value) {
 
 void *LinkedList::popAt(int i) {
     ListItem *p = pos(i);
+    if(i==0){
+        head=head->next;
+    }
+    if(i==size-1){
+        tail=tail->prev;
+    }
     void *temp = p->value;
     unlink(p);
     delete p;

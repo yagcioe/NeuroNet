@@ -60,8 +60,8 @@ void Test::addTest(std::string &name, Test::func f) {
 }
 
 void Test::addTest(char *name, Test::func f) {
-    auto s = new std::string(name);
-    addTest(*s,f);
+    std::string s(name);
+    addTest(s,f);
 }
 
 
@@ -141,7 +141,9 @@ std::string *Test::result::toString() const {
     if (success) {
         s->append("SUCCESS!!! \n");
     } else {
-        s->append("FAILED: ").append(e->what()).append("\n");
+        char* w = e->what();
+        s->append("FAILED: ").append(w).append("\n");
+        //delete[] w;
     }
     s->append("duration: ").append(std::to_string((long) duration)).append("ms\n");
     return s;

@@ -2,6 +2,7 @@
 // Created by Oemer on 05.06.2020.
 //
 
+#include <iostream>
 #include "LinkedListTest.h"
 #include "Test.h"
 
@@ -51,13 +52,19 @@ void testAdd(void* arg) {
     *n= 6942069;
     l->addLastCopy(n);
     //l:[14,42,12,13,1337,6942069]
+    Test::neqadr(n,l->get(l->getSize()-1));
     delete n;
     Test::eqadr((void *) 6942069,(void *) *l->get(l->getSize()-1));
 
 
-
-
+    Test::eqadr((void *) 6,(void *) l->getSize());
+    //gonna give undefined value
+    /*delete m;
+    Test::neqadr((void *) 1337,(void *) *l->get(4));
+    */
     delete l;
+
+
 }
 
 void testRun() {
